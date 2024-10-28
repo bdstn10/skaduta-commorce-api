@@ -2,6 +2,7 @@ from tortoise.models import Model
 from tortoise import fields
 
 class productlist(Model):
+    product_id = fields.IntField(pk=True)
     name = fields.CharField(max_length=225)
     stock = fields.IntField()
     price = fields.CharField(max_length=100)
