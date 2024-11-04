@@ -23,7 +23,6 @@ async def get_product_summary():
         product_store = await product.store_id.first()
         response.append(product_summary(product.name, product_variant.price, product_variant.sold, product_store.location, product.img_link))
         
-    
     return response
 
 @router.post('/add-product')
@@ -42,3 +41,9 @@ async def add_prod(product: Product):
             "product_img_link": product.product_img_link
         }
     }, status_code=201)  
+    
+@router.get('/get-store-list')
+async def get_store_list():
+    response = await storelist.filter().limit(50)
+
+    return response

@@ -20,6 +20,10 @@ class storelist(Model):
     store_id = fields.IntField(pk=True)
     name = fields.CharField(max_length=225)
     location = fields.CharField(max_length=225)
+    owner = fields.ForeignKeyField(
+        'models.userlist',
+        on_delete=fields.CASCADE
+    )
     
 class productvariants(Model):
     variant_id = fields.IntField(pk=True)
@@ -32,3 +36,9 @@ class productvariants(Model):
         on_delete=fields.CASCADE
     )
     
+class userlist(Model):
+    uid = fields.IntField(pk=True)
+    username = fields.CharField(max_length=255)
+    email = fields.CharField(max_length=225)
+    phone = fields.CharField(max_length=15)
+    gender = fields.CharField(max_length=1)
