@@ -3,8 +3,9 @@ from tortoise import fields
 
 class productlist(Model):
     product_id = fields.IntField(pk=True)
-    name = fields.CharField(max_length=225)
-    img_link = fields.CharField(max_length=200)
+    name = fields.CharField(max_length=225, unique=True)
+    cover_link = fields.CharField(max_length=200)
+    with_variant = fields.BooleanField()
     store_id = fields.ForeignKeyField(
         'models.storelist',
         on_delete=fields.CASCADE
@@ -16,6 +17,17 @@ class productlist(Model):
     def __str__(self):
         return self.product_id
     
+class productdetails(Model):
+    variant_name = fields.CharField(max_length=255, null=True)
+    variant_option = fields.CharField(max_length=255, null=True)
+    stock = fields.IntField()
+    sold = fields.IntField()
+    price = fields.CharField(max_length=100)
+    product_id = fields.ForeignKeyField(
+        'models.productlist',
+        on_delete=fields.CASCADE
+    )
+
 class storelist(Model):
     store_id = fields.IntField(pk=True)
     name = fields.CharField(max_length=225)
@@ -24,18 +36,7 @@ class storelist(Model):
         'models.userlist',
         on_delete=fields.CASCADE
     )
-    
-class productvariants(Model):
-    variant_id = fields.IntField(pk=True)
-    variant_title = fields.CharField(max_length=255)
-    stock = fields.IntField()
-    sold = fields.IntField()
-    price = fields.CharField(max_length=100)
-    product_id = fields.ForeignKeyField(
-        'models.productlist',
-        on_delete=fields.CASCADE
-    )
-    
+
 class userlist(Model):
     uid = fields.IntField(pk=True)
     username = fields.CharField(max_length=255)
