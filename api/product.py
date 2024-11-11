@@ -15,7 +15,7 @@ async def get_prod_list():
 @router.get('/get-product-detail')
 async def get_product_detail(product_id: int):
     product = await productlist.filter(product_id=product_id).first()
-    response = []
+    response = {}
     
     if product.with_variant is True:
         product_details = await productdetails().filter(product_id=product)
@@ -32,17 +32,12 @@ async def get_product_detail(product_id: int):
             
         response = product_detail_with_variant(product.name, product.store_id_id, product.cover_link, variant_details=variant_details)    
     else:
-        pass
+        product_details = await productdetails().filter(product_id=product).first()
+        
+        response = product_detail(product.name, product.store_id_id, product.cover_link, product_details.price, product_details.stock, product_details.sold)
+        
     
     return response
-    
-    # for product in products:
-    #     id = product.product_id
-    #     product_variant = await productvariants.filter(product_id=id).first()
-    #     product_store = await product.store_id.first()
-    #     response.append(product_summary(product.name, product_variant.price, product_variant.sold, product_store.location, product.img_link))
-        
-    # return response
 
 @router.post('/add-product')
 async def add_prod(product: Product):
