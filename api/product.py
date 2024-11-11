@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 from database.model import productlist, productdetails,storelist
 from handler.request.product_body_request import Product,ProductDetail
-from handler.response.response import product_summary
+from handler.response.response import product_summary,product_detail,product_detail_with_variant
 
 router = APIRouter(prefix='/products',tags=['Products'])
 
@@ -12,10 +12,29 @@ async def get_prod_list():
 
     return products
 
-@router.get('/get-prod-sum')
-async def get_product_summary():
-    products = await productlist.all()
-    # response = []
+@router.get('/get-product-detail')
+async def get_product_detail(product_id: int):
+    product = await productlist.filter(product_id=product_id).first()
+    response = []
+    
+    if product.with_variant is True:
+        product_details = await productdetails().filter(product_id=product)
+        variant_details = []
+        
+        for pd in product_details:
+            variant_details.append({
+                "variant_name": pd.variant_name,
+                "variant_option": pd.variant_option,
+                "stock": pd.stock,
+                "sold": pd.sold,
+                "price": pd.price
+            })    
+            
+        response = product_detail_with_variant(product.name, product.store_id_id, product.cover_link, variant_details=variant_details)    
+    else:
+        pass
+    
+    return response
     
     # for product in products:
     #     id = product.product_id

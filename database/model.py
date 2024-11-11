@@ -15,7 +15,7 @@ class productlist(Model):
         table = "productlist"
     
     def __str__(self):
-        return self.product_id
+        return self.name
     
 class productdetails(Model):
     variant_name = fields.CharField(max_length=255, null=True)
