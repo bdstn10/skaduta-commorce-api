@@ -13,10 +13,15 @@ async def get_prod_list():
     return products
 
 @router.get('/products-summary')
-async def get_products_summary():
+async def get_products_summary(search_keyword: str = ""):
     response: list[dict] = []
+    products = []
     
-    products = await productlist.all()
+    if len(search_keyword.strip()) > 0:
+        products = await productlist.filter(name__contains=search_keyword)
+    else:
+        products = await productlist.all()
+        
     for product in products:
         details = await productdetails.filter(product_id=product).order_by('-sold').first()
         store = await product.store_id.first()
