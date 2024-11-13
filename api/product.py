@@ -12,6 +12,19 @@ async def get_prod_list():
 
     return products
 
+@router.get('/products-summary')
+async def get_products_summary():
+    response: list[dict] = []
+    
+    products = await productlist.all()
+    for product in products:
+        details = await productdetails.filter(product_id=product).order_by('-sold').first()
+        store = await product.store_id.first()
+        
+        response.append(product_summary(product.product_id, product.name, details.price, details.sold, store.location, product.cover_link))
+    
+    return response
+
 @router.get('/get-product-detail')
 async def get_product_detail(product_id: int):
     product = await productlist.filter(product_id=product_id).first()

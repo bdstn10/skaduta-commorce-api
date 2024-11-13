@@ -1,7 +1,8 @@
 # Product Responses
-def product_summary(product_title: str, product_price: str, sold: int, location: str, cover_link: str):
+def product_summary(id: int, product_name: str, product_price: str, sold: int, location: str, cover_link: str):
      return {
-        "product_title": product_title,
+        "id": id,
+        "product_name": product_name,
         "product_price": product_price,
         "sold": sold,
         "cover_link": cover_link,
