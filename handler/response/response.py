@@ -28,8 +28,9 @@ def product_detail_with_variant(product_name: str, store_id: int, cover_link: st
         "variant_details": variant_details
     }
 
-def cart_item_response(product_id: int, product_name: str, quantity: int, cover_link: str, price: str, stock: int, variant_name: str = None, variant_option: str = None):
+def cart_item_response(cartitem_id: int, product_id: int, product_name: str, quantity: int, cover_link: str, price: str, stock: int, variant_name: str = None, variant_option: str = None):
     return {
+        "cartitem_id": cartitem_id,
         "product_id": product_id,
         "product_name": product_name,
         "variant_name": variant_name,
