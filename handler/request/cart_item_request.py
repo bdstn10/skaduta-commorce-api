@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Optional,Union
+from typing import Optional
 
 class CartItem(BaseModel):
     cart_id: Optional[int]

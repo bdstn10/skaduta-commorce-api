@@ -30,9 +30,9 @@ class productdetails(Model):
 
 class storelist(Model):
     store_id = fields.IntField(pk=True)
-    name = fields.CharField(max_length=225)
+    name = fields.CharField(max_length=225, unique=True)
     location = fields.CharField(max_length=225)
-    owner = fields.ForeignKeyField(
+    owner = fields.OneToOneField(
         'models.userlist',
         on_delete=fields.CASCADE
     )
